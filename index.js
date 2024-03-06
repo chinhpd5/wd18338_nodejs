@@ -28,24 +28,19 @@ const products =[
 ]
 
 
-
+//Trang chủ
 app.get('/', (req, res) => {
   res.send('Hello World!')
 })
-
+// Lấy danh sách sản phẩm
 app.get('/product',(req,res)=>{
     // console.log(req.query);
     res.send(products)
 })
 
-
-app.post('/product',(req,res)=>{
-    console.log(req.body);
-    res.send("Nhận thành công")
-})
-
+// lấy sản phẩm theo id
 app.get('/product/:id',(req,res)=>{
-  console.log(req.params.id);
+  // console.log(req.params.id);
   const id = req.params.id;
   if(id >0){
     const product = products.find(item=> item.id==id)
@@ -57,6 +52,30 @@ app.get('/product/:id',(req,res)=>{
     res.send("Không tìm thấy sản phẩm")
   }
 })
+
+
+app.post('/product',(req,res)=>{
+    // console.log(req.body);
+    let pro = req.body;
+    if(pro){
+      products.push(pro)
+      res.send(products)
+    }
+    else
+      res.send("Có lỗi")
+})
+
+
+// update sản phẩm
+app.put('/produc/:id',(req,res)=>{
+  //code
+})
+// xóa sản phẩm
+app.delete('/produc/:id',(req,res)=>{
+  //code
+})
+
+
 
 
 app.get('/category',(req,res)=>{
