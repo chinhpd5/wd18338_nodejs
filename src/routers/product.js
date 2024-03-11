@@ -1,4 +1,5 @@
 import  express from 'express'
+import {index,addProduct} from '../controllers/ProductController.js'
 var router = express.Router()
 
 const products = [
@@ -25,12 +26,10 @@ const products = [
 ]
 
 // Lấy danh sách sản phẩm
-router.get('/', (req, res) => {
-    // console.log(req.query);
-    // res.send(products)
-    // res.render("product",{name: "chinhpd5"})
-    res.render("product", { data: products })
-})
+router.get('/', index);
+// Thêm sản phẩm
+router.post('/', addProduct);
+
 // lấy sản phẩm theo id
 router.get('/:id', (req, res) => {
     // console.log(req.params.id);
@@ -44,16 +43,6 @@ router.get('/:id', (req, res) => {
     } else {
         res.send("Không tìm thấy sản phẩm")
     }
-})
-router.post('/', (req, res) => {
-    // console.log(req.body);
-    let pro = req.body;
-    if (pro) {
-        products.push(pro)
-        res.send(products)
-    }
-    else
-        res.send("Có lỗi")
 })
 // update sản phẩm
 router.put('/:id', (req, res) => {
