@@ -1,12 +1,23 @@
-const express = require('express')
 // thêm thư viện
-const {engine} = require('express-handlebars')
-const path = require('path');
+import express from 'express';
+import {engine} from 'express-handlebars'
+import path, { dirname } from 'path';
+
+import { fileURLToPath} from 'url';
+
+// const express = require('express')
+// const {engine} = require('express-handlebars')
+// const path = require('path');
 
 const app = express()
 const port = 3000
 
 app.use(express.json());
+
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+// console.log(__dirname);
 
 //views
 app.engine('hbs', engine({extname: '.hbs'}));
@@ -47,14 +58,15 @@ app.get('/', (req, res) => {
 app.get('/product',(req,res)=>{
     // console.log(req.query);
     // res.send(products)
-    res.render("product")
+    // res.render("product",{name: "chinhpd5"})
+    res.render("product",{data: products})
 })
 
 // lấy sản phẩm theo id
 app.get('/product/:id',(req,res)=>{
   // console.log(req.params.id);
   const id = req.params.id;
-  if(id >0){
+  if(id > 0){
     const product = products.find(item=> item.id==id)
     if(product)
       res.send(product)
@@ -90,8 +102,13 @@ app.put('/product/:id',(req,res)=>{
     if(index < 0)
       res.send('Không tìm thấy sản phẩm')
     else{
-      if(data != {}){
-        products[index] = data;
+      console.log(data);
+      console.log(Boolean(data));
+      // if(data){
+      //   console.log(data == {});
+      // }
+      if(data){
+        // products[index] = data;
         res.send(products);
       } else
         res.send("Không nhận được dữ liệu gửi")
