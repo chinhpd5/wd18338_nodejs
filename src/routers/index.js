@@ -7,7 +7,7 @@ import categoryRouter from './category.js'
 function router(app) {
     //product
     app.use('/product',productRouter);
-    app.use('/category',productRouter);
+    app.use('/category',categoryRouter);
     
 
     //Trang chủ

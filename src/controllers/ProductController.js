@@ -21,10 +21,23 @@ const products = [
     },
 ]
 
-export function index(req,res){
-    res.render("product", { data: products })
-}
+import Product from '../models/product.js';
 
+//[GET]: product
+export function index(req,res){
+    Product.find()
+        .then(data=>{
+            if(data.length){
+                res.json(data)
+            }else{
+                res.json({message: "Không có dữ liệu"})
+            }
+        })
+        .catch(()=>{
+            res.json({message: "Có lỗi khi lấy dữ liệu"})
+        })
+}
+//[POST]: product
 export function addProduct(req, res){
     let pro = req.body;
     if (pro) {
@@ -34,3 +47,21 @@ export function addProduct(req, res){
     else
         res.send("Có lỗi")
 }
+
+export function getById(req,res){
+    const id = req.params.id;
+    if(id){
+        Product.findById(id)
+            .then(data=>{
+                if(data)
+                    res.json(data);
+                else 
+                    res.json({message: "Không tìm thấy sản phẩm"})
+            })
+    }else{
+        res.json({message: "Không tìm thấy id sản phẩm"})
+    }
+}
+//[PUT]: product/:id
+
+//[GET]: prduct/:id

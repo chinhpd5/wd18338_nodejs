@@ -3,6 +3,13 @@ import express from 'express';
 import {engine} from 'express-handlebars'
 import path, { dirname } from 'path';
 import { fileURLToPath} from 'url';
+import mongoose from 'mongoose';
+
+
+//connect Database
+//WD18338 là tên cơ sở dữ liệu
+mongoose.connect('mongodb://127.0.0.1:27017/WD18338')
+  .then(() => console.log('Connected!'));
 
 // thêm thư viện từ thư mục routers
 import router from './routers/index.js';
@@ -23,8 +30,18 @@ app.set('view engine', 'hbs');
 app.set('views', path.join(__dirname,'/views'));
 
 //loại bỏ toàn bộ đường dẫn
-//gọi hàm router trong thư mục routers/index.js
-router(app);
+import productRouter from './routers/product.js'
+import categoryRouter from './routers/category.js'
+
+app.use('/product',productRouter);
+app.use('/category',categoryRouter);
+    
+
+//Trang chủ
+app.get('/', (req, res) => {
+    res.render('home');
+})
+
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
