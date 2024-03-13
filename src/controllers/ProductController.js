@@ -22,10 +22,11 @@ const products = [
 ]
 
 import Product from '../models/product.js';
+import Category from '../models/category.js';
 
 //[GET]: product
 export function index(req,res){
-    Product.find()
+    Product.find().populate('categoryId')
         .then(data=>{
             if(data.length){
                 res.json(data)
@@ -39,19 +40,25 @@ export function index(req,res){
 }
 //[POST]: product
 export function addProduct(req, res){
-    let pro = req.body;
-    if (pro) {
-        products.push(pro)
-        res.send(products)
+    let data = req.body;
+    if (data) {
+        Product.create(data)
+            .then(data=>{
+                res.json(data)
+            })
+            .catch(()=>{
+                res.json({message: "Có lỗi khi thêm sản phẩm"})
+            })
+
     }
     else
-        res.send("Có lỗi")
+        res.send("Không lấy được dữ liệu")
 }
-
+//[GET]: product/:id
 export function getById(req,res){
     const id = req.params.id;
     if(id){
-        Product.findById(id)
+        Product.findById(id).populate('categoryId')
             .then(data=>{
                 if(data)
                     res.json(data);
