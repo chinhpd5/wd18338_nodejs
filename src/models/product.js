@@ -9,7 +9,7 @@ const productSchema = new mongoose.Schema(
             type: Number
         },
         categoryId: {
-            type: mongoose.Schema.Types.ObjectId,
+            type: mongoose.Types.ObjectId,
             ref: "categories"
         }
     }

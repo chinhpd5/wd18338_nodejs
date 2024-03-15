@@ -1,5 +1,5 @@
 import  express from 'express'
-import {index,addProduct,getById} from '../controllers/ProductController.js'
+import {index,addProduct,getById,update,remove} from '../controllers/ProductController.js'
 var router = express.Router()
 
 const products = [
@@ -33,44 +33,8 @@ router.post('/', addProduct);
 // lấy sản phẩm theo id
 router.get('/:id', getById)
 // update sản phẩm
-router.put('/:id', (req, res) => {
-    //b1: lấy id
-    let id = req.params.id;
-    //b2 : lấy data
-    let data = req.body;
-    if (id) {
-        //b3 tìm vị trí của id đó
-        const index = products.findIndex(item => item.id == id);
-        if (index < 0)
-            res.send('Không tìm thấy sản phẩm')
-        else {
-            console.log(data);
-            console.log(Boolean(data));
-            // if(data){
-            //   console.log(data == {});
-            // }
-            if (data) {
-                // products[index] = data;
-                res.send(products);
-            } else
-                res.send("Không nhận được dữ liệu gửi")
-        }
-    } else {
-        res.send("Không tìm thấy sản phẩm")
-    }
-    //code
-})
+router.put('/:id', update)
 // xóa sản phẩm
-router.delete('/:id', (req, res) => {
-    const id = req.params.id;
-
-    const index = products.findIndex(item => item.id == id);
-
-    if (index >= 0) {
-        products.splice(index, 1);
-        res.send(products)
-    }
-
-})
+router.delete('/:id', remove)
 
 export default router;

@@ -70,5 +70,42 @@ export function getById(req,res){
     }
 }
 //[PUT]: product/:id
+export function update(req,res){
+    const id = req.params.id;
+    if(id){
+        const data = req.body;
+        if(data != {}){
+            //update
+            Product.findByIdAndUpdate(id,data,{new: true})
+                .then(data=>{
+                    res.json(data)
+                })
+                .catch(()=>{
+                    res.json({message: "Sửa lỗi"})
+                })
+        }else{
+            res.json({message: "Không nhận được sản phẩm"})
+        }
 
-//[GET]: prduct/:id
+    }else{
+        res.json({message: "Không tìm thấy id sản phẩm"})
+    }
+}
+
+
+//[DELETE]: prduct/:id
+export function remove(req,res){
+    const id = req.params.id;
+    if(id){
+        Product.findByIdAndDelete(id)
+            .then((data)=>{
+                res.json(data)
+            })
+            .catch(()=>{
+            res.json({message: "Xóa thất bại"})
+
+            })
+    }else{
+        res.json({message: "Không tìm thấy id sản phẩm"})
+    }
+}
