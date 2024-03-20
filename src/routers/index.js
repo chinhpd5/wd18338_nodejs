@@ -1,7 +1,7 @@
 // nhận router từ routers/product.js
-import productRouter from './product.js'
+import productRouter from './product.router.js'
 // nhận router từ routers/categpry.js
-import categoryRouter from './category.js'
+import categoryRouter from './category.router.js'
 
 
 function router(app) {

@@ -12,29 +12,28 @@ mongoose.connect('mongodb://127.0.0.1:27017/WD18338')
   .then(() => console.log('Connected!'));
 
 // thêm thư viện từ thư mục routers
-import router from './routers/index.js';
+// import router from './routers/index.js';
 
 const app = express()
 const port = 3000
 
 app.use(express.json());
 
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-// console.log(__dirname);
-
 //views
-app.engine('hbs', engine({extname: '.hbs'}));
-app.set('view engine', 'hbs');
-app.set('views', path.join(__dirname,'/views'));
+// const __filename = fileURLToPath(import.meta.url);
+// const __dirname = dirname(__filename);
+// app.engine('hbs', engine({extname: '.hbs'}));
+// app.set('view engine', 'hbs');
+// app.set('views', path.join(__dirname,'/views'));
 
 //loại bỏ toàn bộ đường dẫn
-import productRouter from './routers/product.js'
-import categoryRouter from './routers/category.js'
+import productRouter from './routers/product.router.js'
+import categoryRouter from './routers/category.router.js'
+import userRouter from './routers/user.router.js'
 
 app.use('/product',productRouter);
 app.use('/category',categoryRouter);
+app.use('/user',userRouter)
     
 
 //Trang chủ

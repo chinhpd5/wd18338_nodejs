@@ -21,8 +21,8 @@ const products = [
     },
 ]
 
-import Product from '../models/product.js';
-import Category from '../models/category.js';
+import Product from '../models/product.model.js';
+import Category from '../models/category.model.js';
 
 //[GET]: product
 export function index(req,res){
