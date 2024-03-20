@@ -1,5 +1,5 @@
 import  express from 'express'
-import {GetList,Add} from '../controllers/UserController.js'
+import {GetList,Add,Update,Remove,getById} from '../controllers/UserController.js'
 var router = express.Router()
 
 
@@ -8,10 +8,10 @@ router.get('/', GetList);
 // // Thêm user
 router.post('/', Add);
 // // lấy user theo id
-// router.get('/:id', getById)
+router.get('/:id', getById)
 // // update user
-// router.put('/:id', update)
+router.put('/:id', Update)
 // // xóa user
-// router.delete('/:id', remove)
+router.delete('/:id', Remove)
 
 export default router;

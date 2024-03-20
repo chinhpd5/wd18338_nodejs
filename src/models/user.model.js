@@ -1,5 +1,9 @@
 import mongoose from "mongoose";
 
+function validateEmail(textEmail){
+    return /^\S+@\S+\.\S+$/.test(textEmail) //regex
+}
+
 const UserSchema = mongoose.Schema({
     name: {
         type: String,
@@ -17,7 +21,11 @@ const UserSchema = mongoose.Schema({
         max: [100, "Tuổi cần nhỏ hơn 100"], //giá trị lớn nhất
     },
     email:{
-        type: String
+        type: String,
+        validate:{
+            validator: validateEmail,
+            message: "Không đúng định dạng email"
+        }
     },
     gender: {
         type: Boolean
