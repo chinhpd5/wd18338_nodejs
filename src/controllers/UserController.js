@@ -1,5 +1,7 @@
 import User from "../models/user.model.js";
 import bcryptjs from 'bcryptjs'
+import jwt from 'jsonwebtoken'
+import 'dotenv/config'
 
 // [GET]: user
 export function GetList(req,res){
@@ -47,6 +49,40 @@ export async function signup(req, res){
             res.json({message: err});
         })
     
+}
+
+// [POST] user/signin
+
+export async function signin(req,res){
+    try {
+        const data= req.body
+        // b1 kiểm tra user có tài khoản hay không
+        const userExist = await User.findOne({email: data.username});
+
+        if(!userExist){
+            return res.json({message: "Sai tài khoản"})
+        }
+
+        // Kiểm tra mật khẩu
+        const isCheck= await bcryptjs.compare(data.password, userExist.password);
+
+        if(!isCheck){
+            return res.json({message: "Sai mật khẩu"})
+        }
+        // xóa mật khẩu
+        userExist.password =undefined;
+        // tạo 1 token
+        const token = await jwt.sign({ name: userExist.name, id: userExist._id }, process.env.KEY_SECRET , { expiresIn: "1h" })
+
+        res.json({
+            message: "Đăng nhập thành công",
+            userExist,
+            token
+        })
+    } catch (error) {
+        res.json(error)
+    }
+
 }
 
 export function Update(req, res){
