@@ -4,18 +4,19 @@ import {engine} from 'express-handlebars'
 import path, { dirname } from 'path';
 import { fileURLToPath} from 'url';
 import mongoose from 'mongoose';
+import 'dotenv/config'
 
 
 //connect Database
 //WD18338 là tên cơ sở dữ liệu
-mongoose.connect('mongodb://127.0.0.1:27017/WD18338')
+mongoose.connect(process.env.CONNECTION_STRING_MONGODB)
   .then(() => console.log('Connected!'));
 
 // thêm thư viện từ thư mục routers
 // import router from './routers/index.js';
 
 const app = express()
-const port = 3000
+const port = process.env.PORT
 
 app.use(express.json());
 

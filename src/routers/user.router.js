@@ -1,12 +1,12 @@
 import  express from 'express'
-import {GetList,Add,Update,Remove,getById} from '../controllers/UserController.js'
+import {GetList,signup,Update,Remove,getById} from '../controllers/UserController.js'
 var router = express.Router()
 
 
 // Lấy danh sách user
 router.get('/', GetList);
 // // Thêm user
-router.post('/', Add);
+router.post('/signup', signup);
 // // lấy user theo id
 router.get('/:id', getById)
 // // update user

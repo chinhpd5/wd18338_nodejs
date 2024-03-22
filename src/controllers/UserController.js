@@ -1,4 +1,5 @@
-import User from "../models/user.model.js"
+import User from "../models/user.model.js";
+import bcryptjs from 'bcryptjs'
 
 // [GET]: user
 export function GetList(req,res){
@@ -19,17 +20,33 @@ export function GetList(req,res){
     })
 }
 
-// [POST] user
-export function Add(req, res){
+// [POST] user/signup
+// Đăng kí
+export async function signup(req, res){
     const data = req.body;
-    if(data !={}){
-        User.create(data)
-            .then(newData => res.json(newData))
-            .catch((err)=> 
-            res.json({message: err}))
-    }else{
-        res.json("lỗi")
+    //check email
+    const userExist= await User.findOne({email: data.email});
+
+    if(userExist){
+        return res.json({
+            message: `Đã tồn tại email ${data.email}`
+        })
     }
+
+    // Mã hóa mật khẩu
+    const passwordHashed = await bcryptjs.hash(data.password, 10);
+
+    // thay thế password cũ bằng password đã mã hóa
+    data.password = passwordHashed;
+    
+    User.create(data)
+        .then((newData)=>{
+            res.json(newData);
+        })
+        .catch((err)=>{
+            res.json({message: err});
+        })
+    
 }
 
 export function Update(req, res){

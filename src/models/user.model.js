@@ -25,10 +25,15 @@ const UserSchema = mongoose.Schema({
         validate:{
             validator: validateEmail,
             message: "Không đúng định dạng email"
-        }
+        },
+        required: [true, "Không được để trống email"], // yêu cầu cần có
     },
     gender: {
         type: Boolean
+    },
+    password:{
+        type: String,
+        required: [true, "Không được để trống password"], // yêu cầu cần có
     }
 },{timestamps: true});
 
