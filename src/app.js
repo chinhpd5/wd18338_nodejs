@@ -5,6 +5,7 @@ import path, { dirname } from 'path';
 import { fileURLToPath} from 'url';
 import mongoose from 'mongoose';
 import 'dotenv/config'
+import checkAuth from './middleware/Auth.js';
 
 
 //connect Database
@@ -20,6 +21,8 @@ const port = process.env.PORT
 
 app.use(express.json());
 
+
+
 //views
 // const __filename = fileURLToPath(import.meta.url);
 // const __dirname = dirname(__filename);
@@ -31,8 +34,9 @@ app.use(express.json());
 import productRouter from './routers/product.router.js'
 import categoryRouter from './routers/category.router.js'
 import userRouter from './routers/user.router.js'
+import { log } from 'console';
 
-app.use('/product',productRouter);
+app.use('/product',checkAuth,productRouter);
 app.use('/category',categoryRouter);
 app.use('/user',userRouter)
     

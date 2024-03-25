@@ -69,13 +69,14 @@ export async function signin(req,res){
         if(!isCheck){
             return res.json({message: "Sai mật khẩu"})
         }
+        // tạo 1 token
+        const token = await jwt.sign({ name: userExist.name, id: userExist._id }, process.env.KEY_SECRET , { expiresIn: "30m" })
+        
         // xóa mật khẩu
         userExist.password =undefined;
-        // tạo 1 token
-        const token = await jwt.sign({ name: userExist.name, id: userExist._id }, process.env.KEY_SECRET , { expiresIn: "1h" })
 
         res.json({
-            message: "Đăng nhập thành công",
+            message : "Đăng nhập thành công",
             userExist,
             token
         })

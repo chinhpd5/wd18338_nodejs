@@ -1,5 +1,6 @@
 import  express from 'express'
 import {index,addProduct,getById,update,remove} from '../controllers/ProductController.js'
+import checkAuth from '../middleware/Auth.js';
 var router = express.Router()
 
 
