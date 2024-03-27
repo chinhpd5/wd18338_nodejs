@@ -1,26 +1,3 @@
-const products = [
-    {
-        id: 1,
-        name: "product 1",
-        price: 2000
-    },
-    {
-        id: 2,
-        name: "product 2",
-        price: 2000
-    },
-    {
-        id: 3,
-        name: "product 3",
-        price: 2000
-    },
-    {
-        id: 4,
-        name: "product 4",
-        price: 2000
-    },
-]
-
 import Product from '../models/product.model.js';
 import Category from '../models/category.model.js';
 
@@ -38,6 +15,18 @@ export function index(req,res){
             res.json({message: "Có lỗi khi lấy dữ liệu"})
         })
 }
+//[GET]: product/category/:id
+export async function getProductByCategoryId(req,res){
+    try {
+        const cateID = req.params.id;
+        // console.log(cateID);
+        const listData = await Product.find({categoryId: cateID}).populate("categoryId");
+        res.status(200).json(listData);
+    } catch (error) {
+        res.status(500).json({message: error})
+    }
+}
+
 //[POST]: product
 export function addProduct(req, res){
     let data = req.body;

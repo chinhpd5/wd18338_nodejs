@@ -34,10 +34,11 @@ app.use(express.json());
 import productRouter from './routers/product.router.js'
 import categoryRouter from './routers/category.router.js'
 import userRouter from './routers/user.router.js'
-import { log } from 'console';
+import cartRouter from './routers/cart.router.js'
 
 app.use('/product',checkAuth,productRouter);
-app.use('/category',categoryRouter);
+app.use('/category',checkAuth,categoryRouter);
+app.use('/cart',checkAuth,cartRouter);
 app.use('/user',userRouter)
     
 
