@@ -24,22 +24,26 @@ app.use(express.json());
 
 
 //views
-// const __filename = fileURLToPath(import.meta.url);
-// const __dirname = dirname(__filename);
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 // app.engine('hbs', engine({extname: '.hbs'}));
 // app.set('view engine', 'hbs');
 // app.set('views', path.join(__dirname,'/views'));
+
+app.use(express.static(path.join(__dirname,'uploads')))
 
 //loại bỏ toàn bộ đường dẫn
 import productRouter from './routers/product.router.js'
 import categoryRouter from './routers/category.router.js'
 import userRouter from './routers/user.router.js'
 import cartRouter from './routers/cart.router.js'
+import commonRouter from './routers/commom.router.js'
 
 app.use('/product',checkAuth,productRouter);
 app.use('/category',checkAuth,categoryRouter);
 app.use('/cart',checkAuth,cartRouter);
-app.use('/user',userRouter)
+app.use('/user',userRouter);
+app.use('/',commonRouter)
     
 
 //Trang chủ
