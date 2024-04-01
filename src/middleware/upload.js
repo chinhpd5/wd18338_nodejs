@@ -23,9 +23,9 @@ const multiStorage = multer.diskStorage({
         callback(null,'src/uploads')
     },
     filename: (req,file,callback)=>{
-        // console.log(file);
+        req.body.filenameArr = req.body.filenameArr || [];
         const filename = Date.now() + path.extname(file.originalname)
-        // console.log(filename);
+        req.body.filenameArr.push(filename)
         callback(null, filename)
     }
 })
