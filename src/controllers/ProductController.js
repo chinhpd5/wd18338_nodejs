@@ -3,7 +3,38 @@ import Category from '../models/category.model.js';
 
 //[GET]: product
 export function index(req,res){
-    Product.find().populate('categoryId')
+    // số phần tử có trong 1 trang
+    const limit = req.query.limit || 10;
+    // vị trí trang
+    const page = req.query.page || 1;
+    // số phần tử loại trước đó
+    const skip = (page - 1) * limit;
+
+    const filter = {}
+    if(req.query.name){
+        filter.name = {$regex : req.query.name};
+    }
+    //$lt: less than (nhỏ hơn) 
+    //$gt: great than (lớn hơn)
+    //$lte:less than equa (nhỏ hơn hoặc bằng) 
+    //$gte: great than equa(lớn hơn hoặc bằng)
+    if(req.query.min){
+        filter.price ={$lte : req.query.min}
+    }
+
+    if(req.query.max){
+        filter.price ={$gte : req.query.max}
+    }
+
+    //sắp xếp
+    // 1 từ bé đến lớn
+    // -1 từ lớn đến bé
+    const sort ={price: -1}
+
+    // console.log(filter);
+
+    Product.find(filter).skip(skip).limit(limit).sort(sort)
+        .populate('categoryId')
         .then(data=>{
             if(data.length){
                 res.json(data)
