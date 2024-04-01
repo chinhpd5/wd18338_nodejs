@@ -17,3 +17,18 @@ const storage= multer.diskStorage({
 
 
 export const upload = multer({storage: storage})
+
+const multiStorage = multer.diskStorage({
+    destination: (req,file,callback)=>{
+        callback(null,'src/uploads')
+    },
+    filename: (req,file,callback)=>{
+        // console.log(file);
+        const filename = Date.now() + path.extname(file.originalname)
+        // console.log(filename);
+        callback(null, filename)
+    }
+})
+
+
+export const mutiUpload = multer({storage : multiStorage})
